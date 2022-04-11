@@ -1,0 +1,17 @@
+<h1> Movie Recommendation <h1>
+
+<form method="get" action="/search/">
+    <!-- {% csrf_token %} -->
+    <input type="search" name="title" placeholder="title" required>
+    <input type="search" name="location" placeholder="location" required>
+    <input type="search" name="time" placeholder="time" required>
+    <button type="submit"> Search </button>
+</form>
+
+{% if error_msg %}
+    <p>{{ error_msg }}</p>
+{% endif %}
+
+{% for result in results %}
+    <p> {{ result }}</p>
+{% endfor %}
