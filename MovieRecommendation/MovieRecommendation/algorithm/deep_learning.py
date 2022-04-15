@@ -1,4 +1,4 @@
-def infer(lines: list) -> list:
+def infer(lines: list, *args, **kwargs) -> list:
     """
     input:
         lines: A list of texts.

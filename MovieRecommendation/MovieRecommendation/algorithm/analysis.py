@@ -1,4 +1,4 @@
-def postprocess(model_outputs: list) -> list:
+def postprocess(model_outputs: list, *args, **kwargs) -> list:
     """
     input:
         model_outputs: a list containing DL model outputs.

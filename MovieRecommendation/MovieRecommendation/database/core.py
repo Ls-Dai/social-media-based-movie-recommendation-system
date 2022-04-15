@@ -1,4 +1,4 @@
-def db_get(info: dict, *args, **kwargs) -> list:
+def db_get(info: dict) -> list:
     """
     input:
         info: {
@@ -12,7 +12,7 @@ def db_get(info: dict, *args, **kwargs) -> list:
     """
     return [] 
 
-def db_put(context: dict, *args, **kwargs) -> bool:
+def db_put(context: dict) -> bool:
     """
     input:
         context: {

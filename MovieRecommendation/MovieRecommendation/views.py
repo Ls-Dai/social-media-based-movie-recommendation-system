@@ -6,8 +6,8 @@ from database import db_get, db_put
 from streaming import get_steaming_data
 from algorithm import sentiment_analysis
 
-def search(request):
 
+def search(request):
     """
     info: {
         'title': str, 
@@ -34,11 +34,10 @@ def search(request):
         lines = get_steaming_data(info=info)
         scores = sentiment_analysis(lines=lines)
         context = {"info": info, "scores": scores, 'error_msg': ''}
-        db_put(context=context)
-
+        flag = db_put(context=context)
 
     return render(
-        request=request, 
-        template_name='home.html', 
+        request=request,
+        template_name='home.html',
         context=context,
     )
