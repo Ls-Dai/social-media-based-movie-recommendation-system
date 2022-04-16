@@ -1,4 +1,4 @@
-def get_steaming_data(info: dict) -> list:
+def get_steaming_data(info: dict) -> dict:
     """
     input:
         info: {
@@ -8,7 +8,9 @@ def get_steaming_data(info: dict) -> list:
             'end_date': str,
         }
     output: 
-        A list of streaming texts in the given slot.
+        
     """
-    lines = []
+    lines = {
+        '2000-01-01': ["Hello.", "World"]
+    }
     return lines 
