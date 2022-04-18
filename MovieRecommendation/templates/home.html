@@ -1,0 +1,22 @@
+<h1> Movie Recommendation <h1>
+
+<form method="get" action="/search/">
+    <!-- {% csrf_token %} -->
+    <input type="search" name="title" placeholder="title" required>
+
+    <!-- Geo info: longitude and latitute, radius -->
+    <!-- New York: Google map API  -->
+    <input type="search" name="location" placeholder="location" required>
+    
+    <!-- the end time is current time, this time here is duration (back) indicator -->
+    <input type="search" name="time" placeholder="time" required>
+    <button type="submit"> Search </button>
+</form>
+
+{% if error_msg %}
+    <p>{{ error_msg }}</p>
+{% endif %}
+
+{% for result in results %}
+    <p> {{ result }}</p>
+{% endfor %}
