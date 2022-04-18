@@ -25,7 +25,7 @@ def db_get(info: dict) -> dict:
         db_query_res: {
             'info': dict,
             'query_res': dict,
-            'success': bool, 
+            'success': bool, //if there still exist dates in info which need to be extracted using twitter, success = False
         }
 
         query_res is a dict. Keys are dates, values are dicts. map(str -> {'pos': int, 'neg': int})
