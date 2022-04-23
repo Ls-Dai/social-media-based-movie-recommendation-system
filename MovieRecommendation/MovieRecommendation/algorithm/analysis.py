@@ -25,19 +25,19 @@ def postprocess(model_outputs: dict, db_query_res: dict) -> list:
     total_pos = 0
     total_neg = 0
     scores = []
-    if db_query_res['success']:
-        res_from_db = db_query_res['query_res']
-        for date in res_from_db:
-            score_set = res_from_db[date]
-            total_pos += score_set['pos']
-            total_neg += score_set['neg']
-    else:
+    
+    res_from_db = db_query_res['query_res']
+    for date in res_from_db:
+        score_set = res_from_db[date]
+        total_pos += score_set['pos']
+        total_neg += score_set['neg']
+    if not db_query_res['success']:
         # for date in db_query_res['info']['dates']:
         for date in model_outputs: #Should be the same?
             score_set = model_outputs[date]
             total_pos += score_set['pos']
             total_neg += score_set['neg']
-    scores.append(total_pos/(total_neg + total_pos))
+    scores.append(10 * total_pos/(total_neg + total_pos))
     print('num of positive and negative tweets: ', total_pos, total_neg)
     print('score: ', scores[0])
     return scores
