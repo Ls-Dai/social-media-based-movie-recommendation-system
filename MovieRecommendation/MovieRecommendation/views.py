@@ -2,9 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # main methods
-from database import db_get, db_put
-from streaming import get_steaming_data
-from algorithm import process, postprocess
+from MovieRecommendation.database import db_get, db_put
+from MovieRecommendation.streaming import get_steaming_data
+from MovieRecommendation.algorithm import process, postprocess
 
 
 def search(request):
