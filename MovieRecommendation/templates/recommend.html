@@ -1,8 +1,14 @@
-<h1> Movie Recommendation <h1>
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1> Movie Recommendation </h1>
+
+<h2> Recommendation Part </h2>
 
 <form method="get" action="/search/">
     <!-- {% csrf_token %} -->
-    <input type="search" name="title" placeholder="title" required>
+    <!--<input type="search" name="title" placeholder="title" required>-->
 
     <!-- Geo info: longitude and latitute, radius -->
     <!-- New York: Google map API  -->
@@ -20,3 +26,5 @@
 {% for result in results %}
     <p> {{ result }}</p>
 {% endfor %}
+
+{% endblock %}
