@@ -2,7 +2,7 @@ import tweepy
 import json
 from datetime import datetime
 
-def read_credentials(path="./credentials.json"):
+def read_credentials(path="./credentials/credentials.json"):
     with open(path, 'r') as f:
         credentials = json.load(f)
     return credentials
