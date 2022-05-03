@@ -130,3 +130,6 @@ dmypy.json
 
 # model files 
 weights/
+
+# credentials
+credentials.json
