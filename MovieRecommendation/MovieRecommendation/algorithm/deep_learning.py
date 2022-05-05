@@ -1,8 +1,11 @@
-from model import BertEstimator 
-from dataset import Dataset
+from MovieRecommendation.algorithm.model import BertEstimator 
+# from dataset import Dataset
 import torch 
 
 MAX_SENTENCE_LENGTH = 256
+
+import os 
+FILE_ABS_PATH = os.path.abspath(__file__)
 
 
 def pad(array, n):
@@ -34,8 +37,11 @@ def process(lines_dict: dict) -> dict:
 
     model_outputs = {}
 
+    model_dir = '/'.join(FILE_ABS_PATH.split('/')[:-1]) + "/weights/"
+
     estimator = BertEstimator()
-    estimator.load(model_dir="./weights/")
+    # estimator.load(model_dir="./weights/")
+    estimator.load(model_dir=model_dir)
 
     for date, lines in lines_dict.items():
         scores = []

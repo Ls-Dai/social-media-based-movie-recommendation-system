@@ -73,19 +73,28 @@ def search(request):
         else:
             info = request.GET
         print(info)
-        db_query_res = db_get(info=info)
+        # db_query_res = db_get(info=info)
         # 上面这句报错：pymysql.err.OperationalError:
         # (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
         # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
         # 建议merge之前测试一下
 
-        lines = get_steaming_data(info=db_query_res['info'])
+        db_query_res = {
+            'info': info,
+            'query_res': {},
+            'success': False,
+        }
+
+        lines_dict = get_steaming_data(info=db_query_res['info'])
+        print(lines_dict)
 
         # sentiment analysis
-        model_outputs = process(lines=lines)
-        db_put(model_outputs)
+        model_outputs = process(lines_dict=lines_dict)
+        print(model_outputs)
+        # db_put(model_outputs)
         scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
-        scores = {"score": 0}
+        print(scores)
+        # scores = {"score": 0}
 
         """
         context: {

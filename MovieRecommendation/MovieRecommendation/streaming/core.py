@@ -2,7 +2,7 @@ import tweepy
 import json
 from datetime import datetime
 
-def read_credentials(path="./credentials/credentials.json"):
+def read_credentials(path="./MovieRecommendation/streaming/credentials/credentials.json"):
     with open(path, 'r') as f:
         credentials = json.load(f)
     return credentials
@@ -25,16 +25,18 @@ def get_tweets(info):
 
     title = info.get("title", None)
     geo_info = info.get("geo_info", None)
-    start_date = info.get("start_date", None)
-    end_date = info.get("end_date", None)
+    dates = info.get("dates", None)
+
+    print(30, "geo_info", geo_info)
 
     geo_code = '{},{},{}km'.format(geo_info['longitute'], geo_info['latitute'], geo_info['radius'])
+    print(geo_code)
 
     text_list = []
     for tweet in tweepy.Cursor(
         API.search, 
         q=title, 
-        count=10000, 
+        count=1000, 
         geocode=geo_code, 
         lang="en", 
         # since=start_date, 
@@ -45,7 +47,13 @@ def get_tweets(info):
         text = tweet.text
         text_list.append(text)
 
-    return text_list
+    lines_dict = {}
+    dates_num = len(dates)
+    texts_num = len(text_list)
+    for i, date in enumerate(dates):
+        # print(i * int(texts_num / dates_num), (i+1) * int(texts_num / dates_num))
+        lines_dict[date] = text_list[i * int(texts_num / dates_num): (i+1) * int(texts_num / dates_num)]
+    return lines_dict
 
     
 
@@ -56,8 +64,7 @@ def get_steaming_data(info: dict) -> dict:
         info: {
             'title': str, 
             'geo_info': {'longitute': float, 'latitute': float, 'radius': float}, 
-            'start_date': str,
-            'end_date': str,
+            'dates': ['2022-05-03'],
         }
     output: 
         
@@ -65,20 +72,16 @@ def get_steaming_data(info: dict) -> dict:
         '2000-01-01': ["Hello.", "World"]
     }
     """
-    get_tweets(info)
-    lines_dict = None
-
-
+    lines_dict = get_tweets(info)
 
     return lines_dict 
 
 
 if __name__ == '__main__':
     info = {
-        'title': 'Zootopia', 
+        'title': 'a', 
         'geo_info': {'longitute': 48.136353, 'latitute': 11.575004, 'radius': 1000000}, 
-        'start_date': "2022-01-01",
-        'end_date': "2022-01-30",
+        'dates': ['2022-05-03', '2022-05-04'],
     }
     lines_dict = get_steaming_data(info)
     print(lines_dict)
