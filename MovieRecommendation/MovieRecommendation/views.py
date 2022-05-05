@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import googlemaps
 import math
+import imdb
 
 # 此处的import改成了我这里能跑的形式，包括几个_init_都直接全部注释了，建议merge之前先测试哪个能跑
 
@@ -30,6 +31,9 @@ def get_radius(center, northeast):
         math.cos(c_lat) * math.cos(ne_lat) * math.cos(ne_lng - c_lng)
     ) * 1000
     return radius
+
+def use_imdb():
+    ia = imdb.Cinemagoer()
 
 def homepage(request):
     return render(
@@ -72,7 +76,7 @@ def search(request):
             }
         else:
             info = request.GET
-        print(info)
+        print("Search", info)
         # db_query_res = db_get(info=info)
         # # 上面这句报错：pymysql.err.OperationalError:
         # # (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
@@ -97,9 +101,56 @@ def search(request):
 
         return JsonResponse(context)
 
+
+
 def recommend(request):
-    return render(
-        request=request,
-        template_name='recommend.html',
-        context={"None": None},
-    )
+    if request.method == "GET":
+        return render(
+            request=request,
+            template_name='recommend.html',
+            context={"None": None},
+        )
+    else:
+        if request.is_ajax:
+            ajax_data = request.POST
+            dates = ajax_data.getlist('dates[]')
+            address = ajax_data.get("geo_info")
+            geocode_result = gmaps.geocode(address[:-2]+" State")[0]
+            location = geocode_result["geometry"]["location"]
+            location["lat"] = float(location["lat"])
+            location["lng"] = float(location["lng"])
+            ne = geocode_result["geometry"]["bounds"]["northeast"]
+            ne["lat"] = float(ne["lat"])
+            ne["lng"] = float(ne["lng"])
+            radius = get_radius(location, ne)
+            info = {
+                'title': "MAGA",
+                'geo_info': {'longitute': location["lng"], 'latitute': location["lat"], 'radius': radius},
+                'dates': dates
+            }
+        else:
+            info = request.GET
+        print("Recommend", info)
+        # db_query_res = db_get(info=info)
+        # # 上面这句报错：pymysql.err.OperationalError:
+        # # (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+        # # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
+        # # 建议merge之前测试一下
+        #
+        # lines = get_steaming_data(info=db_query_res['info'])
+        #
+        # # sentiment analysis
+        # model_outputs = process(lines=lines)
+        # db_put(model_outputs)
+        # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+        scores = {"score": 0}
+
+        """
+        context: {
+            "info": dict,
+            "scores": list, 
+        }
+        """
+        context = {"info": info, "scores": scores, 'error_msg': ''}
+
+        return JsonResponse(context)
