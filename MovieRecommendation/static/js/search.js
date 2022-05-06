@@ -229,7 +229,7 @@ $(document).ready(function (){
                     // data : JSON.stringify(info),
                     data : info,
                     success: function (result){
-                        // console.log(result)
+                        console.log(result)
                         $(".submit_search").attr("disabled", "true")
                         let result_for_show = {
                             "title": title,

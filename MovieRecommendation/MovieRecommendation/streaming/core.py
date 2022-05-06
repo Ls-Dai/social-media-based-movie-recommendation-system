@@ -82,7 +82,8 @@ def get_tweets(info):
     #     # until=end_date
     # ).items(1000)), k=1000):
     for tweet in tweepy.Cursor(
-        API.search, 
+        # API.search, 
+        API.search_tweets, 
         wait_on_rate_limit=True, 
         q=title, 
         count=10000, 
@@ -145,7 +146,7 @@ def filterFunc(hashtags):
     return " ".join(ans)
 
 def get_youtube(info):
-    api = Api(api_key="AIzaSyD9c5VzVpBs1-tSb0pVWj6QkNUSEiNYUFE")
+    api = Api(api_key="AIzaSyBuSNBoLmIsLSk3kvnG3gx3-_vLQwSuzok")
     # title = "the batman"
     result = {}
     title = info.get("title", None)
@@ -186,7 +187,7 @@ def get_youtube(info):
         except:
             # Something threw an error. Skip that video and move on
             print("has comments disabled, or something else went wrong")
-    print(result)
+    print(result) 
     return result
     
     lines_dict = steam_process_tweets(tweet_list=tweet_list, info=info)
@@ -207,8 +208,8 @@ def get_steaming_data(info: dict) -> dict:
         '2000-01-01': ["Hello.", "World"]
     }
     """
-    lines_dict = get_tweets(info)
-    # lines_dict = get_youtube(info)
+    # lines_dict = get_tweets(info)
+    lines_dict = get_youtube(info)
 
     return lines_dict 
 

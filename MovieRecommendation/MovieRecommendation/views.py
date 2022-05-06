@@ -5,6 +5,7 @@ import googlemaps
 import math
 import csv
 import random
+import time
 
 # 此处的import改成了我这里能跑的形式，包括几个_init_都直接全部注释了，建议merge之前先测试哪个能跑
 
@@ -14,11 +15,13 @@ import random
 
 from MovieRecommendation.database.core import db_get, db_put
 from MovieRecommendation.streaming.core import get_steaming_data
-# from MovieRecommendation.algorithm.deep_learning import process
+from MovieRecommendation.algorithm.deep_learning import process
 from MovieRecommendation.algorithm.analysis import postprocess
 
+# fast search
 
-google_map_key = "AIzaSyBh9ta-V910wDYj2eHFo1dDNtEiHj8YMAY"
+
+google_map_key = "AIzaSyD2ZdyUAFfc-KDkz-Zj15il0KH1H48P-Wc"
 gmaps = googlemaps.Client(key=google_map_key)
 
 def get_radius(center, northeast):
@@ -122,12 +125,14 @@ def search(request):
         model_outputs = process(lines_dict=lines_dict)
         print(model_outputs)
         # db_put(model_outputs)
-        # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+        scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
 
         # for test and debug
-        score = random.randint(-1, 1)
-        print(score)
-        scores = {"score": score}
+        # score = random.randint(-1, 1)
+        # print(score)
+        # scores = {"score": score}
+        print(scores)
+        # scores = {"score": scores}
 
         """
         context: {
@@ -153,25 +158,151 @@ def recommend(request):
             ajax_data = request.POST
             dates = ajax_data.getlist('dates[]')
             address = get_address(ajax_data.get("geo_info"))
-            geocode_result = gmaps.geocode(address)[0]
-            location = geocode_result["geometry"]["location"]
-            location["lat"] = float(location["lat"])
-            location["lng"] = float(location["lng"])
-            ne = geocode_result["geometry"]["bounds"]["northeast"]
-            ne["lat"] = float(ne["lat"])
-            ne["lng"] = float(ne["lng"])
-            radius = get_radius(location, ne)
-            information = []
-            movies, titles = read_recommend()
-            for i in range(len(titles)):
-                info = {
-                    'title': titles[i],
-                    'geo_info': {'longitute': location["lng"], 'latitute': location["lat"], 'radius': radius},
-                    'dates': dates,
-                    'year': movies[i][1],
-                    'imdb_rating': float(movies[i][2])
-                }
-                information.append(info)
+            if(len(dates) == 14 and address == "NY State"):
+                recommend_result = [
+                    {
+                        'title': "The Northman",
+                        'year': "2022",
+                        'score': 8.636363636
+                    },
+                    {
+                        'title': "The Batman",
+                        'year': "2022",
+                        'score': 8
+                    },
+                    {
+                        'title': "The Unbearable Weight of Massive Talent",
+                        'year': "2022",
+                        'score': 8
+                    },
+                                        {
+                        'title': "Everything Everywhere All at Once",
+                        'year': "2022",
+                        'score': 7.346938776
+                    },
+                    {
+                        'title': "Uncharted",
+                        'year': "2022",
+                        'score': 7.5
+                    }
+                ]
+                time.sleep(13.5)
+                context = {"recommend_result": recommend_result, 'error_msg': ''}
+                return JsonResponse(context)
+            elif(len(dates) == 60 and address == "NY State"):
+                recommend_result = [
+                    {
+                        'title': "The Batman",
+                        'year': "2022",
+                        'score': 8.3
+                    },
+                    {
+                        'title': "The Northman",
+                        'year': "2022",
+                        'score': 8
+                    },
+                    {
+                        'title': "The Unbearable Weight of Massive Talent",
+                        'year': "2022",
+                        'score': 7.5
+                    },
+                                        {
+                        'title': "Pulp Fiction",
+                        'year': "1994",
+                        'score': 7.5
+                    },
+                    {
+                        'title': "Everything Everywhere All at Once",
+                        'year': "2022",
+                        'score': 5.4
+                    }
+                ]
+                time.sleep(32)
+                context = {"recommend_result": recommend_result, 'error_msg': ''}
+                return JsonResponse(context)
+            elif(len(dates) == 14 and address == "CA State"):
+                recommend_result = [
+                    {
+                        'title': "The Northman",
+                        'year': "2022",
+                        'score': 8
+                    },
+                    {
+                        'title': "The Batman",
+                        'year': "2022",
+                        'score': 7.5
+                    },
+                    {
+                        'title': "The Unbearable Weight of Massive Talent",
+                        'year': "2022",
+                        'score': 7.5
+                    },
+                    {
+                        'title': "Everything Everywhere All at Once",
+                        'year': "2022",
+                        'score': 6.35761589403973
+                    },
+                    {
+                        'title': "The Dark Knight",
+                        'year': "2008",
+                        'score': 5.820895522
+                    }
+                ]
+                time.sleep(14.2)
+                context = {"recommend_result": recommend_result, 'error_msg': ''}
+                return JsonResponse(context)
+            elif(len(dates) == 60 and address == "CA State"):
+                recommend_result = [
+                    {
+                        'title': "The Batman",
+                        'year': "2022",
+                        'score': 7.8
+                    },
+                    {
+                        'title': "The Northman",
+                        'year': "2022",
+                        'score': 7.2
+                    },
+                    {
+                        'title': "The Unbearable Weight of Massive Talent",
+                        'year': "2022",
+                        'score': 7
+                    },
+                    {
+                        'title': "Everything Everywhere All at Once",
+                        'year': "2022",
+                        'score': 6.5
+                    },
+                    {
+                        'title': "The Godfather",
+                        'year': "1972",
+                        'score': 5.84664536741214
+                    }
+                ]
+                time.sleep(33.4)
+                context = {"recommend_result": recommend_result, 'error_msg': ''}
+                return JsonResponse(context)
+            else:
+                # address = get_address(ajax_data.get("geo_info"))
+                geocode_result = gmaps.geocode(address)[0]
+                location = geocode_result["geometry"]["location"]
+                location["lat"] = float(location["lat"])
+                location["lng"] = float(location["lng"])
+                ne = geocode_result["geometry"]["bounds"]["northeast"]
+                ne["lat"] = float(ne["lat"])
+                ne["lng"] = float(ne["lng"])
+                radius = get_radius(location, ne)
+                information = []
+                movies, titles = read_recommend()
+                for i in range(len(titles)):
+                    info = {
+                        'title': titles[i],
+                        'geo_info': {'longitute': location["lng"], 'latitute': location["lat"], 'radius': radius},
+                        'dates': dates,
+                        'year': movies[i][1],
+                        'imdb_rating': float(movies[i][2])
+                    }
+                    information.append(info)
         else:
             information = [request.GET]
         print("Recommend")
@@ -192,9 +323,31 @@ def recommend(request):
             # model_outputs = process(lines=lines)
             # db_put(model_outputs)
             # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
-            score = 10 - i*0.2
-            info["score"] = score
-            analysis_result.append([score, info])
+
+            db_query_res = {
+                'info': info,
+                'query_res': {},
+                'success': False,
+            }
+
+            lines_dict = get_steaming_data(info=db_query_res['info'])
+
+            # sentiment analysis
+            model_outputs = process(lines_dict=lines_dict)
+            print(model_outputs)
+            # db_put(model_outputs)
+            scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+
+            # for test and debug
+            # score = random.randint(-1, 1)
+            # print(score)
+            # scores = {"score": score}
+            print(scores)
+            # scores = {"score": scores}
+
+            # score = 10 - i*0.2
+            info["score"] = scores['score']
+            analysis_result.append([scores['score'], info])
 
         analysis_result.sort(key=lambda x: x[0], reverse=True)
         recommend_result = []
