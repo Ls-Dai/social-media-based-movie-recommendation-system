@@ -55,9 +55,17 @@ def get_tweets(info):
         lines_dict[date] = text_list[i * int(texts_num / dates_num): (i+1) * int(texts_num / dates_num)]
     return lines_dict
 
-    
 
-
+test = [
+    {
+        "text": "str",
+        "create_at": "yy"
+     }
+]
+# result = {}
+# for date in dates:
+#     result[date] = []
+# result["date"].append(comment)
 def get_steaming_data(info: dict) -> dict:
     """
     input:
