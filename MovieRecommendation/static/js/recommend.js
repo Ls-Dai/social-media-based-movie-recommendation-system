@@ -121,21 +121,26 @@ function get_days(period){
 function clear_page(){
     $("#location_input").val("")
     $("#time_input").val("")
-    $(".result_comment_zone").empty()
     $(".result_topic_zone").empty()
-    $(".score_zone").empty()
+    $(".result_comment_zone").empty()
+    $(".recommend_lines").empty()
     $(".clear_button_zone").empty()
 }
 
 function show_result(info) {
-    $(".result_topic_zone").text("Search Result:")
-    let comment = "Title: "+info.title+", time period: from "
+    $(".result_topic_zone").text("Here are our recommend results:")
+    let comment = "Time period: from "
     let first_day = days[days.length-1]
     let last_day = days[0]
     comment = comment + first_day+ " to "+ last_day
-    comment = comment + ", location: "+ info.location
+    comment = comment + ", location: "+ $("#location_input").val().toString()
     $(".result_comment_zone").text(comment)
-    $(".score_zone").text("Score: "+info.score)
+    for (i=0;i<info.length;i++) {
+        let line = $("<h4>")
+        let txt = info[i].title + ", year: " + info[i].year + ", score: " + info[i].score
+        line.text(txt)
+        $(".recommend_lines").append(line)
+    }
     let clear_button = $("<button>").addClass("clear_button")
     clear_button.text("clear")
     $(".clear_button_zone").append(clear_button)
@@ -171,12 +176,13 @@ $(document).ready(function (){
                     data : info,
                     success: function (result){
                         console.log(result)
+                        let rec_result = result["recommend_result"]
                         // let result_for_show = {
                         //     "title": title,
                         //     "location": location,
                         //     "score": result["scores"].score.toString()
                         // }
-                        // show_result(result_for_show)
+                        show_result(rec_result)
                         days = []
                     },
                     error: function(request, status, error){
