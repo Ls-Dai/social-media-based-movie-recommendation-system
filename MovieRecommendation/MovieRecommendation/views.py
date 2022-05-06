@@ -33,19 +33,6 @@ def get_radius(center, northeast):
     ) * 1000
     return radius
 
-def get_address(line):
-    short = line[-2:]
-    print(short)
-    if short == "IN":
-        address = "Indiana" + " State"
-    elif short == "MS":
-        address = "Mississippi" + " State"
-    elif short == "NC":
-        address = "North Carolina" + " State"
-    else:
-        address = short + " State"
-    return address
-
 def read_recommend():
     with open("./static/movies/movie_for_recommend.csv", 'r', encoding='utf-8', newline='') as f:
         reader = csv.reader(f)
