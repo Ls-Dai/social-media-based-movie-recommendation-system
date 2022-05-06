@@ -36,8 +36,8 @@ def get_tweets(info):
     for tweet in tweepy.Cursor(
         API.search, 
         q=title, 
-        count=1000, 
-        geocode=geo_code, 
+        count=100, 
+        # geocode=geo_code, 
         lang="en", 
         # since=start_date, 
         # until=end_date
