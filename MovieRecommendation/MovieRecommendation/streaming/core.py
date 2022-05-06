@@ -55,9 +55,7 @@ def steam_process_tweets(tweet_list, info):
     rdd = rdd.map(lambda x: (x[0], [string_cleaning(x[1])]))
     rdd = rdd.reduceByKey(lambda x, y: x + y)
     
-    # print(rdd.collect())
     lines_dict = dict(rdd.collect())
-    # print(lines_dict)
     sc.stop()
     return lines_dict
 
@@ -130,6 +128,9 @@ def get_tweets(info):
         }
         
         tweet_list.append(tweet_obj)
+        
+    lines_dict = steam_process_tweets(tweet_list, info)
+    return lines_dict
 
 
 def filterFunc(hashtags):
@@ -206,8 +207,8 @@ def get_steaming_data(info: dict) -> dict:
         '2000-01-01': ["Hello.", "World"]
     }
     """
-    # lines_dict = get_tweets(info)
-    lines_dict = get_youtube(info)
+    lines_dict = get_tweets(info)
+    # lines_dict = get_youtube(info)
 
     return lines_dict 
 
