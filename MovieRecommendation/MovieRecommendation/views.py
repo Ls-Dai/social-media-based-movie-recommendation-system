@@ -14,7 +14,7 @@ import random
 
 from MovieRecommendation.database.core import db_get, db_put
 from MovieRecommendation.streaming.core import get_steaming_data
-from MovieRecommendation.algorithm.deep_learning import process
+# from MovieRecommendation.algorithm.deep_learning import process
 from MovieRecommendation.algorithm.analysis import postprocess
 
 
@@ -33,6 +33,18 @@ def get_radius(center, northeast):
     ) * 1000
     return radius
 
+def get_address(line):
+    short = line[-2:]
+    if short == "IN":
+        address = "Indiana" + " State"
+    elif short == "MS":
+        address = "Mississippi" + " State"
+    elif short == "NC":
+        address = "North Carolina" + " State"
+    else:
+        address = short + " State"
+    return address
+
 def read_recommend():
     with open("./static/movies/movie_for_recommend.csv", 'r', encoding='utf-8', newline='') as f:
         reader = csv.reader(f)
@@ -45,8 +57,8 @@ def read_recommend():
                 movies.append(line)
             i += 1
         f.close()
-    print(movies)
-    print(titles)
+    # print(movies)
+    # print(titles)
     return movies, titles
 
 def homepage(request):
@@ -158,7 +170,7 @@ def recommend(request):
         analysis_result = []
         for i in range(len(information)):
             info = information[i]
-            print(info)
+            # print(info)
 
             # db_query_res = db_get(info=info)
             # # 上面这句报错：pymysql.err.OperationalError:
