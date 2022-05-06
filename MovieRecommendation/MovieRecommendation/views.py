@@ -4,6 +4,7 @@ from django.shortcuts import render
 import googlemaps
 import math
 import csv
+import random
 
 # 此处的import改成了我这里能跑的形式，包括几个_init_都直接全部注释了，建议merge之前先测试哪个能跑
 
@@ -13,7 +14,7 @@ import csv
 
 from MovieRecommendation.database.core import db_get, db_put
 from MovieRecommendation.streaming.core import get_steaming_data
-from MovieRecommendation.algorithm.deep_learning import process
+# from MovieRecommendation.algorithm.deep_learning import process
 from MovieRecommendation.algorithm.analysis import postprocess
 
 
@@ -32,6 +33,18 @@ def get_radius(center, northeast):
     ) * 1000
     return radius
 
+def get_address(line):
+    short = line[-2:]
+    if short == "IN":
+        address = "Indiana" + " State"
+    elif short == "MS":
+        address = "Mississippi" + " State"
+    elif short == "NC":
+        address = "North Carolina" + " State"
+    else:
+        address = short + " State"
+    return address
+
 def read_recommend():
     with open("./static/movies/movie_for_recommend.csv", 'r', encoding='utf-8', newline='') as f:
         reader = csv.reader(f)
@@ -44,8 +57,8 @@ def read_recommend():
                 movies.append(line)
             i += 1
         f.close()
-    print(movies)
-    print(titles)
+    # print(movies)
+    # print(titles)
     return movies, titles
 
 def homepage(request):
@@ -73,8 +86,8 @@ def search(request):
             ajax_data = request.POST
             dates = ajax_data.getlist('dates[]')
             title = ajax_data.get("title")
-            address = ajax_data.get("geo_info")
-            geocode_result = gmaps.geocode(address[:-2]+" State")[0]
+            address = get_address(ajax_data.get("geo_info"))
+            geocode_result = gmaps.geocode(address)[0]
             location = geocode_result["geometry"]["location"]
             location["lat"] = float(location["lat"])
             location["lng"] = float(location["lng"])
@@ -89,30 +102,24 @@ def search(request):
             }
         else:
             info = request.GET
-
-        print(info)
+        print("Search", info)
         # db_query_res = db_get(info=info)
-        # 上面这句报错：pymysql.err.OperationalError:
-        # (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
-        # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
-        # 建议merge之前测试一下
-
-        db_query_res = {
-            'info': info,
-            'query_res': {},
-            'success': False,
-        }
-
-        lines_dict = get_steaming_data(info=db_query_res['info'])
-        print(lines_dict)
-
-        # sentiment analysis
-        model_outputs = process(lines_dict=lines_dict)
-        print(model_outputs)
+        # # 上面这句报错：pymysql.err.OperationalError:
+        # # (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+        # # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
+        # # 建议merge之前测试一下
+        #
+        # lines = get_steaming_data(info=db_query_res['info'])
+        #
+        # # sentiment analysis
+        # model_outputs = process(lines=lines)
         # db_put(model_outputs)
-        scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
-        print(scores)
-        # scores = {"score": 0}
+        # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+
+        # for test and debug
+        score = random.randint(-1, 1)
+        print(score)
+        scores = {"score": score}
 
         """
         context: {
@@ -137,8 +144,8 @@ def recommend(request):
         if request.is_ajax:
             ajax_data = request.POST
             dates = ajax_data.getlist('dates[]')
-            address = ajax_data.get("geo_info")
-            geocode_result = gmaps.geocode(address[:-2]+" State")[0]
+            address = get_address(ajax_data.get("geo_info"))
+            geocode_result = gmaps.geocode(address)[0]
             location = geocode_result["geometry"]["location"]
             location["lat"] = float(location["lat"])
             location["lng"] = float(location["lng"])
@@ -163,7 +170,7 @@ def recommend(request):
         analysis_result = []
         for i in range(len(information)):
             info = information[i]
-            print(info)
+            # print(info)
 
             # db_query_res = db_get(info=info)
             # # 上面这句报错：pymysql.err.OperationalError:

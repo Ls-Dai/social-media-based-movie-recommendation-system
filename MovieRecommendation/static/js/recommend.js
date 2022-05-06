@@ -36,7 +36,7 @@ var states = [
     "Ohio OH",
     "Oklahoma OK",
     "Oregon OR",
-    "Pennsylvania[D] PA",
+    "Pennsylvania PA",
     "Rhode Island RI",
     "South Carolina SC",
     "South Dakota SD",
@@ -52,17 +52,17 @@ var states = [
 ]
 
 var time_period = [
-    "3 days",
     "1 week",
     "2 weeks",
-    "30 days"
+    "30 days",
+    "60 days"
 ]
 
 var period_to_num = {
-    "3 days": 3,
     "1 week": 7,
     "2 weeks": 14,
-    "30 days": 30
+    "30 days": 30,
+    "60 days": 60
 }
 
 var days = []
