@@ -104,6 +104,7 @@ def search(request):
             info = request.GET
         print("Search", info)
         # db_query_res = db_get(info=info)
+
         # 上面这句报错：pymysql.err.OperationalError:
         # (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
         # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
