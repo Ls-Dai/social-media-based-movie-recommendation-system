@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d2feda2-67c6-466e-a2f7-aae3890e4714" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/MovieRecommendation/algorithm/dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieRecommendation/algorithm/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieRecommendation/streaming/write_credentials.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieRecommendation/algorithm/deep_learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendation/algorithm/deep_learning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieRecommendation/streaming/core.py" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendation/streaming/core.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MovieRecommendation/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendation/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/recommend.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/recommend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +34,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MovieRecommendation/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1952">
-              <caret line="148" column="46" lean-forward="true" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
+            <state relative-caret-position="1263">
+              <caret line="138" selection-start-line="138" selection-end-line="138" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -84,7 +89,7 @@
         <entry file="file://$PROJECT_DIR$/templates/search.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="50" selection-start-line="50" selection-end-line="50" />
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
             </state>
           </provider>
         </entry>
@@ -394,7 +399,7 @@
     <entry file="file://$PROJECT_DIR$/templates/search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
         </state>
       </provider>
     </entry>
@@ -410,8 +415,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MovieRecommendation/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1952">
-          <caret line="148" column="46" lean-forward="true" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
+        <state relative-caret-position="1263">
+          <caret line="138" selection-start-line="138" selection-end-line="138" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
