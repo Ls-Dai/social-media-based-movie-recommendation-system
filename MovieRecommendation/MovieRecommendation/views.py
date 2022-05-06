@@ -104,7 +104,6 @@ def search(request):
         }
 
         lines_dict = get_steaming_data(info=db_query_res['info'])
-        print(lines_dict)
 
         # sentiment analysis
         model_outputs = process(lines_dict=lines_dict)
