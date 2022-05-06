@@ -4,7 +4,7 @@
     <list default="true" id="5d2feda2-67c6-466e-a2f7-aae3890e4714" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/MovieRecommendation/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendation/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/recommend.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/recommend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/recommend.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recommend.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/search.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MovieRecommendation/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2095">
-              <caret line="129" column="15" selection-start-line="129" selection-start-column="15" selection-end-line="129" selection-end-column="15" />
+            <state relative-caret-position="1952">
+              <caret line="148" column="46" lean-forward="true" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -159,6 +159,12 @@
             <path>
               <item name="MovieRecommendation" type="b2602c69:ProjectViewProjectNode" />
               <item name="MovieRecommendation" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="movies" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MovieRecommendation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MovieRecommendation" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -227,6 +233,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -403,8 +410,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MovieRecommendation/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2095">
-          <caret line="129" column="15" selection-start-line="129" selection-start-column="15" selection-end-line="129" selection-end-column="15" />
+        <state relative-caret-position="1952">
+          <caret line="148" column="46" lean-forward="true" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>

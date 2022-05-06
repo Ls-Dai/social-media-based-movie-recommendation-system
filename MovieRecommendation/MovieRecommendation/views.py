@@ -4,6 +4,7 @@ from django.shortcuts import render
 import googlemaps
 import math
 import csv
+import random
 
 # 此处的import改成了我这里能跑的形式，包括几个_init_都直接全部注释了，建议merge之前先测试哪个能跑
 
@@ -31,6 +32,19 @@ def get_radius(center, northeast):
         math.cos(c_lat) * math.cos(ne_lat) * math.cos(ne_lng - c_lng)
     ) * 1000
     return radius
+
+def get_address(line):
+    short = line[-2:]
+    print(short)
+    if short == "IN":
+        address = "Indiana" + " State"
+    elif short == "MS":
+        address = "Mississippi" + " State"
+    elif short == "NC":
+        address = "North Carolina" + " State"
+    else:
+        address = short + " State"
+    return address
 
 def read_recommend():
     with open("./static/movies/movie_for_recommend.csv", 'r', encoding='utf-8', newline='') as f:
@@ -73,8 +87,8 @@ def search(request):
             ajax_data = request.POST
             dates = ajax_data.getlist('dates[]')
             title = ajax_data.get("title")
-            address = ajax_data.get("geo_info")
-            geocode_result = gmaps.geocode(address[:-2]+" State")[0]
+            address = get_address(ajax_data.get("geo_info"))
+            geocode_result = gmaps.geocode(address)[0]
             location = geocode_result["geometry"]["location"]
             location["lat"] = float(location["lat"])
             location["lng"] = float(location["lng"])
@@ -102,7 +116,11 @@ def search(request):
         # model_outputs = process(lines=lines)
         # db_put(model_outputs)
         # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
-        scores = {"score": 0}
+
+        # for test and debug
+        score = random.randint(-1, 1)
+        print(score)
+        scores = {"score": score}
 
         """
         context: {
@@ -127,8 +145,8 @@ def recommend(request):
         if request.is_ajax:
             ajax_data = request.POST
             dates = ajax_data.getlist('dates[]')
-            address = ajax_data.get("geo_info")
-            geocode_result = gmaps.geocode(address[:-2]+" State")[0]
+            address = get_address(ajax_data.get("geo_info"))
+            geocode_result = gmaps.geocode(address)[0]
             location = geocode_result["geometry"]["location"]
             location["lat"] = float(location["lat"])
             location["lng"] = float(location["lng"])

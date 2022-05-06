@@ -36,7 +36,7 @@ var states = [
     "Ohio OH",
     "Oklahoma OK",
     "Oregon OR",
-    "Pennsylvania[D] PA",
+    "Pennsylvania PA",
     "Rhode Island RI",
     "South Carolina SC",
     "South Dakota SD",
@@ -62,17 +62,17 @@ var states = [
 // window.initMap = initMap;
 
 var time_period = [
-    "3 days",
     "1 week",
     "2 weeks",
-    "30 days"
+    "30 days",
+    "60 days"
 ]
 
 var period_to_num = {
-    "3 days": 3,
     "1 week": 7,
     "2 weeks": 14,
-    "30 days": 30
+    "30 days": 30,
+    "60 days": 60
 }
 
 var days = []
@@ -178,6 +178,7 @@ function clear_page(){
     $(".result_topic_zone").empty()
     $(".score_zone").empty()
     $(".clear_button_zone").empty()
+    $(".submit_search").removeAttr("disabled")
 }
 
 function show_result(info) {
@@ -188,7 +189,11 @@ function show_result(info) {
     comment = comment + first_day+ " to "+ last_day
     comment = comment + ", location: "+ info.location
     $(".result_comment_zone").text(comment)
-    $(".score_zone").text("Score: "+info.score)
+    if (info.score >= 0){
+        $(".score_zone").text("Score: "+info.score)
+    } else {
+        $(".score_zone").text("Sorry, there isn't tweets and youtube commends base on your location and time period choice. Please try longer time period or other location.")
+    }
     let clear_button = $("<button>").addClass("clear_button")
     clear_button.text("clear")
     $(".clear_button_zone").append(clear_button)
@@ -225,10 +230,11 @@ $(document).ready(function (){
                     data : info,
                     success: function (result){
                         // console.log(result)
+                        $(".submit_search").attr("disabled", "true")
                         let result_for_show = {
                             "title": title,
                             "location": location,
-                            "score": result["scores"].score.toString()
+                            "score": result["scores"].score
                         }
                         show_result(result_for_show)
                         days = []
