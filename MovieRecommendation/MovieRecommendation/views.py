@@ -109,12 +109,12 @@ def search(request):
         # # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
         # # 建议merge之前测试一下
         #
-        # lines = get_steaming_data(info=db_query_res['info'])
-        #
-        # # sentiment analysis
-        # model_outputs = process(lines=lines)
-        # db_put(model_outputs)
-        # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+        lines = get_steaming_data(info=info)
+        
+        # sentiment analysis
+        model_outputs = process(lines=lines)
+        db_put(model_outputs)
+        scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
 
         # for test and debug
         score = random.randint(-1, 1)

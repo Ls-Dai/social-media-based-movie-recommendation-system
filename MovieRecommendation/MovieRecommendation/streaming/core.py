@@ -34,7 +34,7 @@ def get_tweets(info):
 
     text_list = []
     for tweet in tweepy.Cursor(
-        API.search, 
+        API.search_tweets, 
         q=title, 
         count=100, 
         # geocode=geo_code, 
