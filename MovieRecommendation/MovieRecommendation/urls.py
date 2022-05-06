@@ -26,4 +26,4 @@ urlpatterns = [
     path('search', views.search),
     path('recommend', views.recommend),
     url(r'^search/$', views.search, name='search')
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

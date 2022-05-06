@@ -2,29 +2,34 @@
 
 {% block content %}
 
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<script>
+    let token = '{{ csrf_token }}'
+</script>
+
+<!--{% load staticfiles %}-->
+{% load static %}
+<script type="text/javascript" src="{% static 'js/recommend.js' %}"></script>
+<link type="text/css" href="{% static 'css/main.css' %}" rel="stylesheet">
+
+<!--Google Maps Javascript API-->
+
 <h1> Movie Recommendation </h1>
 
 <h2> Recommendation Part </h2>
 
-<form method="get" action="/search/">
-    <!-- {% csrf_token %} -->
-    <!--<input type="search" name="title" placeholder="title" required>-->
+<div id="recommend_input_zone" class="col-mid-6">
+    <div class="location_zone"></div>
+    <div class="time_zone"></div>
+    <button class="submit_search">Submit</button>
+</div>
 
-    <!-- Geo info: longitude and latitute, radius -->
-    <!-- New York: Google map API  -->
-    <input type="search" name="location" placeholder="location" required>
-    
-    <!-- the end time is current time, this time here is duration (back) indicator -->
-    <input type="search" name="time" placeholder="time" required>
-    <button type="submit"> Search </button>
-</form>
-
-{% if error_msg %}
-    <p>{{ error_msg }}</p>
-{% endif %}
-
-{% for result in results %}
-    <p> {{ result }}</p>
-{% endfor %}
+<div id="recommend_result_zone" class="col-mid-6">
+    <h3 class="result_topic_zone"></h3>
+    <h4 class="result_comment_zone"></h4>
+    <div class="recommend_lines"></div>
+    <div class="clear_button_zone"></div>
+</div>
 
 {% endblock %}
