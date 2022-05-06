@@ -39,7 +39,7 @@ def postprocess(model_outputs: dict, db_query_res: dict) -> list:
             total_pos += score_set['pos']
             total_neg += score_set['neg']
     if total_neg + total_pos == 0:
-        scores["score"] = 0
+        scores["score"] = -1
     else:
         scores["score"] = (10 * total_pos/(total_neg + total_pos))
     # print('num of positive and negative tweets: ', total_pos, total_neg)
