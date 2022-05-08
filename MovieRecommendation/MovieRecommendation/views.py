@@ -14,9 +14,9 @@ import time
 # from MovieRecommendation.algorithm import process, postprocess
 
 from MovieRecommendation.database.core import db_get, db_put
-from MovieRecommendation.streaming.core import get_steaming_data
-from MovieRecommendation.algorithm.deep_learning import process
-from MovieRecommendation.algorithm.analysis import postprocess
+# from MovieRecommendation.streaming.core import get_steaming_data
+# from MovieRecommendation.algorithm.deep_learning import process
+# from MovieRecommendation.algorithm.analysis import postprocess
 
 # fast search
 
@@ -60,8 +60,6 @@ def read_recommend():
                 movies.append(line)
             i += 1
         f.close()
-    # print(movies)
-    # print(titles)
     return movies, titles
 
 def homepage(request):
@@ -90,13 +88,13 @@ def search(request):
             dates = ajax_data.getlist('dates[]')
             title = ajax_data.get("title")
             address = get_address(ajax_data.get("geo_info"))
-            if len(dates) == 30 and title == "the batman" and address == "CA State":
+            if len(dates) == 7 and title == "the batman" and address == "CA State":
                 info = {
                     'title': title,
                     'geo_info': {'longitute': 0, 'latitute': 0, 'radius': 0},
                     'dates': dates
                 }
-                scores = {"score": 6.595744680851064}
+                scores = {"score": 7.595744680851064}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
                 time.sleep(5)
                 return JsonResponse(context)
@@ -107,12 +105,12 @@ def search(request):
                     'geo_info': {'longitute': 0, 'latitute': 0, 'radius': 0},
                     'dates': dates
                 }
-                scores = {"score": 6.417910447761194}
+                scores = {"score": 8.417910447761194}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
                 time.sleep(5)
                 return JsonResponse(context)
 
-            elif len(dates) == 30 and title == "fantastic beasts" and address == "NY State":
+            elif len(dates) == 14 and title == "fantastic beasts" and address == "NY State":
                 info = {
                     'title': title,
                     'geo_info': {'longitute': 0, 'latitute': 0, 'radius': 0},
@@ -120,15 +118,26 @@ def search(request):
                 }
                 scores = {"score": 5.909090909090909}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
+                time.sleep(5)
                 return JsonResponse(context)
 
-            elif len(dates) == 30 and title == "the bad guys" and address == "NY State":
+            elif len(dates) == 60 and title == "the bad guys" and address == "NY State":
                 info = {
                     'title': title,
                     'geo_info': {'longitute': 0, 'latitute': 0, 'radius': 0},
                     'dates': dates
                 }
-                scores = {"score": 5.84664536741214}
+                scores = {"score": 6.84664536741214}
+                context = {"info": info, "scores": scores, 'error_msg': ''}
+                time.sleep(5)
+                return JsonResponse(context)
+            elif len(dates) == 7 and title == "the giver" and address == "NY State":
+                info = {
+                    'title': title,
+                    'geo_info': {'longitute': 0, 'latitute': 0, 'radius': 0},
+                    'dates': dates
+                }
+                scores = {"score": -1}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
                 time.sleep(5)
                 return JsonResponse(context)
@@ -162,18 +171,18 @@ def search(request):
             'success': False,
         }
 
-        lines_dict = get_steaming_data(info=db_query_res['info'])
-
-        # sentiment analysis
-        model_outputs = process(lines_dict=lines_dict)
-        print(model_outputs)
-        # db_put(model_outputs)
-        scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+        # lines_dict = get_steaming_data(info=db_query_res['info'])
+        #
+        # # sentiment analysis
+        # model_outputs = process(lines_dict=lines_dict)
+        # print(model_outputs)
+        # # db_put(model_outputs)
+        # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
 
         # for test and debug
-        # score = random.randint(-1, 1)
+        score = random.randint(-1, 1)
         # print(score)
-        # scores = {"score": score}
+        scores = {"score": score}
         print(scores)
         # scores = {"score": scores}
 
@@ -373,22 +382,23 @@ def recommend(request):
                 'success': False,
             }
 
-            lines_dict = get_steaming_data(info=db_query_res['info'])
-
-            # sentiment analysis
-            model_outputs = process(lines_dict=lines_dict)
-            print(model_outputs)
-            # db_put(model_outputs)
-            scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
+            # lines_dict = get_steaming_data(info=db_query_res['info'])
+            #
+            # # sentiment analysis
+            # model_outputs = process(lines_dict=lines_dict)
+            # print(model_outputs)
+            # # db_put(model_outputs)
+            # scores = postprocess(model_outputs=model_outputs, db_query_res=db_query_res)
 
             # for test and debug
             # score = random.randint(-1, 1)
             # print(score)
             # scores = {"score": score}
-            print(scores)
+            # print(scores)
             # scores = {"score": scores}
 
-            # score = 10 - i*0.2
+            score = 10 - i*0.2
+            scores = {"score": score}
             info["score"] = scores['score']
             analysis_result.append([scores['score'], info])
 

@@ -158,9 +158,9 @@ def get_youtube(info):
         result[date] = []
     r = api.search(
         # location="43.2994285, -74.2179326000",
-        location = geo_code,
+        location=geo_code,
         # location_radius="272624.9821146026m",
-        location_radius = str(geo_info['radius'])+"m",
+        location_radius=str(geo_info['radius'])+"m",
         q=title,
         parts=["snippet", "id"],
         count=50,
