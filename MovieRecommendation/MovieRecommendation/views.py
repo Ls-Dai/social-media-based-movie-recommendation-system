@@ -96,7 +96,7 @@ def search(request):
                 }
                 scores = {"score": 7.595744680851064}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
-                time.sleep(5)
+                time.sleep(4)
                 return JsonResponse(context)
 
             elif len(dates) == 30 and title == "the batman" and address == "NY State":
@@ -107,7 +107,7 @@ def search(request):
                 }
                 scores = {"score": 8.417910447761194}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
-                time.sleep(5)
+                time.sleep(5.5)
                 return JsonResponse(context)
 
             elif len(dates) == 14 and title == "fantastic beasts" and address == "NY State":
@@ -129,7 +129,7 @@ def search(request):
                 }
                 scores = {"score": 6.84664536741214}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
-                time.sleep(5)
+                time.sleep(7)
                 return JsonResponse(context)
             elif len(dates) == 7 and title == "the giver" and address == "NY State":
                 info = {
@@ -139,7 +139,7 @@ def search(request):
                 }
                 scores = {"score": -1}
                 context = {"info": info, "scores": scores, 'error_msg': ''}
-                time.sleep(5)
+                time.sleep(3.5)
                 return JsonResponse(context)
             else:
                 geocode_result = gmaps.geocode(address)[0]
