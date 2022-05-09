@@ -32,14 +32,11 @@ AUTH.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 API = tweepy.API(AUTH)
 
 
-def steam_process_tweets(tweet_list, info):
+def steam_process_tweets(tweet_list, info, sc):
 
     title = info.get("title", None)
     geo_info = info.get("geo_info", None)
     dates = info.get("dates", None)
-
-    conf = pyspark.SparkConf("local").setAppName("part_3")
-    sc = pyspark.SparkContext(conf=conf)
 
     # Batching
     rdd = sc.parallelize(tweet_list)
@@ -59,7 +56,7 @@ def steam_process_tweets(tweet_list, info):
     rdd = rdd.map(lambda x: get_model_res_count(x[1]))
     
     lines_dict = dict(rdd.collect())
-    sc.stop()
+
     return lines_dict
 
 
@@ -94,7 +91,7 @@ def steam_process_youtube_comments(comment_list, info):
     return lines_dict
 
 
-def get_tweets(info):
+def get_tweets(info, sc):
 
     # tweet_attribute_list = ['author', 'contributors', 'coordinates', 'created_at', 'destroy', 'entities', 'favorite', 'favorite_count', 'favorited', 'geo', 'id', 'id_str', 'in_reply_to_screen_name', 'in_reply_to_status_id', 'in_reply_to_status_id_str', 'in_reply_to_user_id', 'in_reply_to_user_id_str', 'is_quote_status', 'lang', 'metadata', 'parse', 'parse_list', 'place', 'retweet', 'retweet_count', 'retweeted', 'retweeted_status', 'retweets', 'source', 'source_url', 'text', 'truncated', 'user']
 
@@ -164,7 +161,7 @@ def get_tweets(info):
         tweet_obj = tweet
         tweet_list.append(tweet_obj)
         
-    lines_dict = steam_process_tweets(tweet_list, info)
+    lines_dict = steam_process_tweets(tweet_list, info, sc)
     return lines_dict
 
 
