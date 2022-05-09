@@ -19,10 +19,16 @@ from MovieRecommendation.database.core import db_get, db_put
 # from MovieRecommendation.algorithm.analysis import postprocess
 
 # fast search
+import pyspark
 
 
 google_map_key = "AIzaSyD2ZdyUAFfc-KDkz-Zj15il0KH1H48P-Wc"
 gmaps = googlemaps.Client(key=google_map_key)
+
+
+conf = pyspark.SparkConf("local").setAppName("part_3")
+sc = pyspark.SparkContext(conf=conf)
+
 
 def get_radius(center, northeast):
     r = 6371.393
@@ -171,7 +177,7 @@ def search(request):
             'success': False,
         }
 
-        # lines_dict = get_steaming_data(info=db_query_res['info'])
+        # lines_dict = get_steaming_data(info=db_query_res['info'], sc)
         #
         # # sentiment analysis
         # model_outputs = process(lines_dict=lines_dict)
@@ -369,7 +375,7 @@ def recommend(request):
             # # 不确定是我的问题还是数据库的问题，把中间处理部分注释掉后前端Search功能已实现且能在本地跑（Python 3.5.6)
             # # 建议merge之前测试一下
             #
-            # lines = get_steaming_data(info=db_query_res['info'])
+            # lines = get_steaming_data(info=db_query_res['info'], sc)
             #
             # # sentiment analysis
             # model_outputs = process(lines=lines)
@@ -382,7 +388,7 @@ def recommend(request):
                 'success': False,
             }
 
-            # lines_dict = get_steaming_data(info=db_query_res['info'])
+            # lines_dict = get_steaming_data(info=db_query_res['info'], sc)
             #
             # # sentiment analysis
             # model_outputs = process(lines_dict=lines_dict)

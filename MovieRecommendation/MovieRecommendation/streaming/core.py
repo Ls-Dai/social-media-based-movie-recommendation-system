@@ -47,10 +47,10 @@ def steam_process_tweets(tweet_list, info, sc):
     rdd = rdd.sample(withReplacement=False, fraction=0.9)
 
     # Operator Separation & Operator Reordering
-    
     rdd = rdd.map(reformat_date)
     rdd = rdd.filter(lambda x: x.created_at in dates)
     rdd = rdd.map(lambda x: (x.created_at, x.text))
+    
     rdd = rdd.map(lambda x: (x[0], [clean_and_tokenize(x[1])]))
     rdd = rdd.reduceByKey(lambda x, y: x + y)
     rdd = rdd.map(lambda x: get_model_res_count(x[1]))
