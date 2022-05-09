@@ -115,7 +115,7 @@ class BertEstimator:
         if self.device == 'gpu':
             torch.cuda.manual_seed_all(SEED)
 
-    def load(self, model_dir='weights/'):
+    def load(self, model_dir='MovieRecommendation/algorithm/weights/'):
         if not os.path.exists(model_dir):
             raise FileNotFoundError("folder `{}` does not exist. Please make sure weights are there.".format(model_dir))
 

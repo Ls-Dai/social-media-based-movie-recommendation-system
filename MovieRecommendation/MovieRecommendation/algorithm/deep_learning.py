@@ -37,7 +37,9 @@ def process(lines_dict: dict) -> dict:
 
     model_outputs = {}
 
-    model_dir = '/'.join(FILE_ABS_PATH.split('/')[:-1]) + "/weights/"
+    # model_dir = '/'.join(FILE_ABS_PATH.split('/')[:-1]) + "MovieRecommendation/algorithm/weights/"
+    model_dir = "/Users/donot/social-media-based-movie-recommendation-system/MovieRecommendation/MovieRecommendation/algorithm/weights/"
+    # print('/'.join(FILE_ABS_PATH.split('/')[:-1]))
 
     estimator = BertEstimator()
     # estimator.load(model_dir="./weights/")
