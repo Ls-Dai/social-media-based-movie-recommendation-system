@@ -1,3 +1,4 @@
+from typing import Any
 import tweepy 
 import json
 from pyyoutube import Api
@@ -8,17 +9,22 @@ import re
 import random 
 
 try:
-    from utils import get_model_res_count, string_cleaning, clean_and_tokenize, reformat_date, preprocess_youtube_comment
+    from utils import fun_get_model_res_count, string_cleaning, clean_and_tokenize, reformat_date, preprocess_youtube_comment
 except:
     from MovieRecommendation.streaming.utils import get_model_res_count, string_cleaning, clean_and_tokenize, reformat_date, preprocess_youtube_comment
 
 
-def read_credentials(path="./MovieRecommendation/streaming/credentials/credentials.json"):
+# def read_credentials(path="./MovieRecommendation/streaming/credentials/credentials.json"):
+def read_credentials(path="./credentials/credentials.json"):
     with open(path, 'r') as f:
         credentials = json.load(f)
     return credentials
 
-credentials = read_credentials()
+try:
+    credentials = read_credentials()
+except:
+    credentials = read_credentials(path="./MovieRecommendation/streaming/credentials/credentials.json")
+
 twitter_credentials = credentials["Twitter"]
 youtube_credentials = credentials["Youtube"]
 
@@ -32,7 +38,7 @@ AUTH.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 API = tweepy.API(AUTH)
 
 
-def steam_process_tweets(tweet_list, info, sc):
+def steam_process_tweets(tweet_list, info, sc, get_model_res_count):
 
     title = info.get("title", None)
     geo_info = info.get("geo_info", None)
@@ -93,7 +99,9 @@ def steam_process_youtube_comments(comment_list, info):
 
 def get_tweets(info, sc):
 
-    # tweet_attribute_list = ['author', 'contributors', 'coordinates', 'created_at', 'destroy', 'entities', 'favorite', 'favorite_count', 'favorited', 'geo', 'id', 'id_str', 'in_reply_to_screen_name', 'in_reply_to_status_id', 'in_reply_to_status_id_str', 'in_reply_to_user_id', 'in_reply_to_user_id_str', 'is_quote_status', 'lang', 'metadata', 'parse', 'parse_list', 'place', 'retweet', 'retweet_count', 'retweeted', 'retweeted_status', 'retweets', 'source', 'source_url', 'text', 'truncated', 'user']
+    '''
+    tweet_attribute_list = ['author', 'contributors', 'coordinates', 'created_at', 'destroy', 'entities', 'favorite', 'favorite_count', 'favorited', 'geo', 'id', 'id_str', 'in_reply_to_screen_name', 'in_reply_to_status_id', 'in_reply_to_status_id_str', 'in_reply_to_user_id', 'in_reply_to_user_id_str', 'is_quote_status', 'lang', 'metadata', 'parse', 'parse_list', 'place', 'retweet', 'retweet_count', 'retweeted', 'retweeted_status', 'retweets', 'source', 'source_url', 'text', 'truncated', 'user']
+    '''
 
     title = info.get("title", None)
     geo_info = info.get("geo_info", None)
@@ -102,62 +110,14 @@ def get_tweets(info, sc):
     geo_code = '{},{},{}km'.format(geo_info['longitute'], geo_info['latitute'], geo_info['radius'])
 
     tweet_list = []
-    # for tweet in random.choices(list(tweepy.Cursor(
-    #     API.search, 
-    #     wait_on_rate_limit=True, 
-    #     q=title, 
-    #     count=10000, 
-    #     # geocode=geo_code, 
-    #     lang="en", 
-    #     # since=start_date, 
-    #     # until=end_date
-    # ).items(1000)), k=1000):
     for tweet in tweepy.Cursor(
-        # API.search, 
-        API.search_tweets, 
+        API.search, 
         wait_on_rate_limit=True, 
         q=title, 
         count=10000, 
-        # geocode=geo_code, 
+        geocode=geo_code, 
         lang="en", 
-        # since=start_date, 
-        # until=end_date
     ).items(1000):
-        # tweet_obj = {
-        #     'author': tweet.author, 
-        #     'contributors': tweet.contributors, 
-        #     'coordinates': tweet.coordinates, 
-        #     'created_at': tweet.created_at, 
-        #     'destroy': tweet.destroy, 
-        #     'entities': tweet.entities, 
-        #     'favorite': tweet.favorite, 
-        #     'favorite_count': tweet.favorite_count, 
-        #     'favorited': tweet.favorited, 
-        #     'geo': tweet.geo, 
-        #     'id': tweet.id, 
-        #     'id_str': tweet.id_str, 
-        #     'in_reply_to_screen_name': tweet.in_reply_to_screen_name, 
-        #     'in_reply_to_status_id': tweet.in_reply_to_status_id, 
-        #     'in_reply_to_status_id_str': tweet.in_reply_to_status_id_str, 
-        #     'in_reply_to_user_id': tweet.in_reply_to_user_id, 
-        #     'in_reply_to_user_id_str': tweet.in_reply_to_user_id_str, 
-        #     'is_quote_status': tweet.is_quote_status, 
-        #     'lang': tweet.lang, 
-        #     'metadata': tweet.metadata, 
-        #     'parse': tweet.parse, 
-        #     'parse_list': tweet.parse_list, 
-        #     'place': tweet.place, 
-        #     'retweet': tweet.retweet, 
-        #     'retweet_count': tweet.retweet_count, 
-        #     'retweeted': tweet.retweeted, 
-        #     # 'retweeted_status': tweet.retweeted_status, 
-        #     'retweets': tweet.retweets, 
-        #     'source': tweet.source, 
-        #     'source_url': tweet.source_url, 
-        #     'text': tweet.text, 
-        #     'truncated': tweet.truncated,
-        #     'user': tweet.user,
-        # }
         tweet_obj = tweet
         tweet_list.append(tweet_obj)
         
@@ -184,13 +144,10 @@ def get_youtube(info):
     geo_info = info.get("geo_info", None)
     dates = info.get("dates", None)
     geo_code = '{}, {}'.format(geo_info['latitute'], geo_info['longitute'])
-    # dates = ['2022-05-06', '2022-05-05', '2022-05-04', '2022-05-03', '2022-05-02', '2022-05-01', '2022-04-30', '2022-04-29', '2022-04-28', '2022-04-27', '2022-04-26', '2022-04-25', '2022-04-24', '2022-04-23', '2022-04-22', '2022-04-21', '2022-04-20', '2022-04-19', '2022-04-18', '2022-04-17', '2022-04-16', '2022-04-15', '2022-04-14', '2022-04-13', '2022-04-12', '2022-04-11', '2022-04-10', '2022-04-09', '2022-04-08', '2022-04-07']
     for date in dates:
         result[date] = []
     r = api.search(
-        # location="43.2994285, -74.2179326000",
         location=geo_code,
-        # location_radius="272624.9821146026m",
         location_radius=str(geo_info['radius'])+"m",
         q=title,
         parts=["snippet", "id"],
@@ -225,7 +182,7 @@ def get_youtube(info):
     return lines_dict
 
 
-def get_steaming_data(info: dict) -> dict:
+def get_steaming_data(info: dict, sc: Any) -> dict:
     """
     input:
         info: {
@@ -239,8 +196,8 @@ def get_steaming_data(info: dict) -> dict:
         '2000-01-01': ["Hello.", "World"]
     }
     """
-    # lines_dict = get_tweets(info)
-    lines_dict = get_youtube(info)
+    lines_dict = get_tweets(info, sc)
+    # lines_dict = get_youtube(info)
 
     return lines_dict 
 
@@ -251,5 +208,8 @@ if __name__ == '__main__':
         'geo_info': {'longitute': 48.136353, 'latitute': 11.575004, 'radius': 1000000}, 
         'dates': ['2022-05-03', '2022-05-04'],
     }
-    lines_dict = get_steaming_data(info)
+    # Spark
+    conf = pyspark.SparkConf("local").setAppName("part_3")
+    sc = pyspark.SparkContext(conf=conf)
+    lines_dict = get_steaming_data(info, sc)
     print(lines_dict)
